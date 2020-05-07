@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/base.xml"/>
+	<jmxConfigurator/>
+
+	<!--application.yml 传递参数，不能使用logback 自带的<property>标签 -->
+	<springProperty scope="context" name="appname" source="logback.appname"/>
+	<springProperty scope="context" name="logdir" source="logback.logdir"/>
+	<!-- 设置上下文名称-->
+	<contextName>${appname}</contextName>
+	<!-- 格式化日志输出到控制台 -->
+	<appender name="consoleLog" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %contextName [userid:%X{USER_ID},tendid:%X{TEND_ID},ip:%X{IP}] %logger{36} - %msg%n</pattern>
+		</layout>
+	</appender>
+	<!-- 格式化日志输出到文件 -->
+	<appender name="fileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${logdir}/${appname}.log</File>
+		<!--滚动策略-->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--输出路径-->
+			<fileNamePattern>${logdir}/${appname}.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %contextName [userid:%X{USER_ID},tendid:%X{TEND_ID},ip:%X{IP}] %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<File>${logdir}/${appname}-error.log</File>
+		<!--滚动策略-->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--输出路径-->
+			<FileNamePattern>${logdir}/${appname}-error.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<maxHistory>7</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %contextName [userid:%X{USER_ID},tendid:%X{TEND_ID},ip:%X{IP}] %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<!-- 指定日志输出级别，默认是DEBUG （TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF） -->
+	<root level="info">
+		<!--<appender-ref ref="consoleLog"/>-->
+		<appender-ref ref="fileLog"/>
+		<appender-ref ref="fileErrorLog"/>
+	</root>
+</configuration>

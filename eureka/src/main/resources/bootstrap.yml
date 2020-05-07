@@ -1,0 +1,34 @@
+#默认注册中心配置文件
+info:
+  version: "v1"
+  name: "eureka"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+#端口号
+server:
+   port: 1111
+   tomcat:
+     max-threads: 200
+spring:
+  application:
+    name: eureka
+eureka:
+  instance:
+    hostname: localhost
+    leaseRenewalIntervalInSeconds: 11
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true # false 代表不想在注册中心注册自己
+    registryFetchIntervalSeconds: 7 #表示eureka client间隔多久去拉取服务注册信息，默认为30秒
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    eviction-interval-timer-in-ms: 5000
+    use-read-only-response-cache: true
+    enable-self-preservation: false
+logback:
+  logdir: /mnt/logs
+  appname: eureka
