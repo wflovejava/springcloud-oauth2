@@ -1,0 +1,42 @@
+#默认注册中心配置文件
+info:
+  version: "v1"
+  name: "zuul"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+#端口号
+server:
+   port: 9999
+   tomcat:
+     max-threads: 200
+spring:
+  application:
+    name: zuul
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:1111/eureka/
+  instance:
+    prefer-ip-address: true #显示服务器IP
+zuul:
+  routes:
+    uaa:
+      sensitiveHeaders:
+      serviceId: auth-server
+    provide:
+      sensitiveHeaders:
+      serviceId: provide-server
+  add-proxy-headers: true
+
+security:
+  oauth2:
+    client:
+      access-token-uri: http://localhost:9999/uaa/oauth/token
+      user-authorization-uri: http://localhost:9999/uaa/oauth/authorize
+      client-id: wf
+    resource:
+      user-info-uri: http://localhost:9999/uaa/user
+      prefer-token-info: false
