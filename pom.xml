@@ -13,6 +13,7 @@
         <module>api-gateway</module>
         <module>eureka</module>
         <module>provide-service</module>
+        <module>wf-base</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -23,13 +23,18 @@ eureka:
     prefer-ip-address: true #显示服务器IP
 security:
   oauth2:
+    # OAuth2 Client 配置，对应 OAuth2ClientProperties 类
+    client:
+      client-id: wf_oauth
+      client-secret: wf_secret
+    # OAuth2 Resource 配置，对应 ResourceServerProperties 类
     resource:
-      id: service
-      user-info-uri: http://localhost:9999/uaa/user # 使用auth-server进行认证授权，
-      prefer-token-info: false
+      token-info-uri: http://127.0.0.1:8082/oauth/check_token # 获得 Token 信息的 URL 资源服务器会调用授权服务器的 /oauth/check_token 接口  验证token的正确性
+    #  令牌获取的 URL，自定义的access-token-uri 比如用户登录要成功之后获取令牌 请看用户登录接口 /auth/login
+    access-token-uri: http://127.0.0.1:8082/oauth/token
 logging:
   level:
     org:
       springframework:
         security: DEBUG
-debug: true
+#debug: true

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
 
 /**
+ *  Spring Security 提供认证功能
  * @Author: wf
  * @Date: 2020-05-07 11:27
  * @describe 安全配置类
@@ -34,8 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
+        auth     //使用UserDetailsService
                 .userDetailsService(userDetailsService())
+                //不使用 PasswordEncoder 密码编码器
                 .passwordEncoder(passwordEncoder());
     }
 

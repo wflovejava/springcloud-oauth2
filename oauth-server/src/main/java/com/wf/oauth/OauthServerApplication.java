@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
+ * 授权服务器
  * @Author: wf
  * @Date: 2020-05-07 11:07
  * @describe
